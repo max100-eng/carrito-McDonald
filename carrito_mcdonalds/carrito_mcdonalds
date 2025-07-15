@@ -1,0 +1,42 @@
+CREATE DATABASE carrito_mcdonalds;
+
+USE carrito_mcdonalds;
+
+-- Tabla de productos
+CREATE TABLE productos (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    precio DECIMAL(10,2) NOT NULL,
+    categoria VARCHAR(50) NOT NULL,
+    imagen VARCHAR(255)
+);
+
+-- Tabla de pedidos
+CREATE TABLE pedidos (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    estado VARCHAR(20) DEFAULT 'pendiente',
+    total DECIMAL(10,2) NOT NULL
+);
+
+-- Tabla de detalles del pedido
+CREATE TABLE detalles_pedido (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    id_producto INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido),
+    FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+);
+
+
+INSERT INTO productos (nombre, descripcion, precio, categoria, imagen) VALUES
+('Big Mac', 'Hamburguesa con doble carne, salsa especial, lechuga, queso, pepinillos y cebolla', 5.99, 'hamburguesas', 'bigmac.jpg'),
+('Cuarto de Libra', 'Hamburguesa con carne de 1/4 de libra, queso, cebolla, mostaza y ketchup', 4.99, 'hamburguesas', 'cuartolibra.jpg'),
+('McNuggets (6 piezas)', 'Trozos de pollo empanizado', 3.49, 'pollo', 'mcnuggets.jpg'),
+('Papas Fritas Grandes', 'Papas fritas crujientes tamaño grande', 2.49, 'acompanamientos', 'papas.jpg'),
+('Coca-Cola Mediana', 'Refresco de Coca-Cola tamaño mediano', 1.99, 'bebidas', 'cocacola.jpg'),
+('McFlurry Oreo', 'Helado suave con trozos de galleta Oreo', 3.29, 'postres', 'mcflurry.jpg');
